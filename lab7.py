@@ -12,7 +12,7 @@ def input_error(func):
         except KeyError:
             return "Нема такого ПІБ!"
         except ValueError as e:
-            return "Потрібен ПІБ та номер!", e
+            return "Потрібен ПІБ та тел.!"#, e.args[0]
     return inner
 
 def parse_input(user_input):
@@ -131,6 +131,8 @@ class AddressBook(UserDict):
     
     def get_upcoming_birthdays(self):
         listall = []
+        if self.data == None:
+            return listall
         # поточна дата
         now = datetime.today().date()
         # Пройдіться по списку users та аналізуйте дати народження кожного
@@ -184,6 +186,7 @@ def add_birthday(book: AddressBook, args):
     name, dr = args
     return book.add_dr(name, dr)
 
+@input_error
 def show_birthday(book: AddressBook, args):
     name = args[0]
     return book.find(name)
@@ -195,45 +198,45 @@ def birthdays(book: AddressBook):
 def main():
     book = AddressBook()
     
-    user_input = "add Toxa 12345678901"
-    command, *args = parse_input(user_input)
-    print(add_contact(book, args))
-    return 0
+    # user_input = "add Toxa 1234567890"
+    # command, *args = parse_input(user_input)
+    # print(add_contact(book, args))
+    # return 0
 
-    user_input = "add Den 0987654321"
-    command, *args = parse_input(user_input)
-    print(add_contact(book, args))
+    # user_input = "add Den 0987654321"
+    # command, *args = parse_input(user_input)
+    # print(add_contact(book, args))
 
-    print(all_contact(book))
+    # print(all_contact(book))
 
-    user_input = "phone Toxa"
-    command, *args = parse_input(user_input)
-    print(phone_contact(book, args))
+    # user_input = "phone Toxa"
+    # command, *args = parse_input(user_input)
+    # print(phone_contact(book, args))
 
-    user_input = "change Toxa 0987654321"
-    command, *args = parse_input(user_input)
-    print(change_contact(book, args))
+    # user_input = "change Toxa 0987654321"
+    # command, *args = parse_input(user_input)
+    # print(change_contact(book, args))
 
-    print(all_contact(book))
+    # print(all_contact(book))
 
-    user_input = "add-birthday Toxa 26.03.1979"
-    command, *args = parse_input(user_input)
-    print(add_birthday(book, args))
+    # user_input = "add-birthday Toxa 26.03.1979"
+    # command, *args = parse_input(user_input)
+    # print(add_birthday(book, args))
 
-    user_input = "add-birthday Den 25.02.1979"
-    command, *args = parse_input(user_input)
-    print(add_birthday(book, args))
-    print(all_contact(book))
+    # user_input = "add-birthday Den 25.02.1979"
+    # command, *args = parse_input(user_input)
+    # print(add_birthday(book, args))
+    # print(all_contact(book))
 
-    user_input = "show-birthday Toxa"
-    command, *args = parse_input(user_input)
-    print(show_birthday(book, args))
+    # user_input = "show-birthday Toxa"
+    # command, *args = parse_input(user_input)
+    # print(show_birthday(book, args))
 
-    user_input = "birthdays"
-    command, *args = parse_input(user_input)
-    print(birthdays(book))
+    # user_input = "birthdays"
+    # command, *args = parse_input(user_input)
+    # print(birthdays(book))
 
-    return 0
+    # return 0
 
     print("Welcome to the assistant bot!")
     while True:

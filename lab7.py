@@ -83,9 +83,12 @@ class Record:
             if v.value == Phone(oldtel).value:
                del(self.phones[i])
         
-    def edit_phone(self, tel: str):
-        self.phones.clear()
-        self.phones.append(Phone(tel))
+    def edit_phone(self, oldtel: str, newtel: str):
+        for i, v in enumerate(self.phones):
+              if v.value == Phone(oldtel).value:
+                self.phones[i] = Phone(newtel)
+                return "Телефон змінено"
+        raise ValueError("Телефон не знайдено!")
       
     def find_phone(self, oldtel: str) -> Phone:
         for el in self.phones:
@@ -121,12 +124,12 @@ class AddressBook(UserDict):
     def add_contact(self, name: str, phone: str):
         rec = self.find(name)
         if rec == None:
-            record = Record(name)
-            record.add_phone(phone)
-            self.add_record(record)
+            rec = Record(name)
+            rec.add_phone(phone)
+            self.add_record(rec)
         else:
-            record.add_phone(phone)
-            self.add_record(record)
+            rec.add_phone(phone)
+            self.add_record(rec)
         return "Контакт додано"
     
     def get_upcoming_birthdays(self):
@@ -167,14 +170,14 @@ def phone_contact(book: AddressBook, args):
 
 @input_error 
 def change_contact(book: AddressBook, args):
-    name, newphone = args
+    name, oldphone, newphone = args
     record = book.find(name)
     if record != None:
-        record.edit_phone(newphone)
+        record.edit_phone(oldphone, newphone)
         book.data[name] = record
         return "Контакт змінено"
     else:
-        return "ПІБ не знайдено!"
+        raise ValueError("ПІБ не знайдено!")
 
 @input_error
 def add_contact(book: AddressBook, args):
